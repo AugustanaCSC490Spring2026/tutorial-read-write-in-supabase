@@ -34,7 +34,7 @@ export default function App() {
             // setData(data || [])
             // setStatus('success: Read ' + (data?.length || 0) + ' records')
 
-            setStatus('❌ Read function not yet implemented - add your code above!')
+            setStatus('Read function not yet implemented - add your code above!')
         } catch (error) {
             setStatus('error: ' + error.message)
         } finally {
@@ -71,7 +71,7 @@ export default function App() {
             // setStatus('success: Data written successfully')
             // handleRead() // Refresh the table
 
-            setStatus('❌ Write function not yet implemented - add your code above!')
+            setStatus('Write function not yet implemented - add your code above!')
         } catch (error) {
             setStatus('error: ' + error.message)
         } finally {
@@ -95,7 +95,7 @@ export default function App() {
             // setStatus('success: Record deleted')
             // handleRead() // Refresh the table
 
-            setStatus('❌ Delete function not yet implemented - add your code above!')
+            setStatus('Delete function not yet implemented - add your code above!')
         } catch (error) {
             setStatus('error: ' + error.message)
         } finally {
@@ -105,19 +105,19 @@ export default function App() {
 
     return (
         <div className="container">
-            <h1>📊 Supabase Read/Write Tutorial</h1>
+            <h1>Supabase Read/Write Tutorial</h1>
             <p className="subtitle">Learn how to build CRUD operations with Supabase</p>
 
             {/* Status Message */}
             {status && (
-                <div className={`status ${status.includes('❌') || status.includes('error') ? 'error' : status.includes('✅') || status.includes('success') ? 'success' : 'loading'}`}>
+                <div className={`status ${status.includes('error') ? 'error' : status.includes('success') ? 'success' : 'loading'}`}>
                     {status}
                 </div>
             )}
 
             {/* WRITE Section */}
             <div className="section">
-                <h2 className="section-title">✍️ Write Data</h2>
+                <h2 className="section-title">Write Data</h2>
                 <p style={{ color: '#666', marginBottom: '20px', fontSize: '14px' }}>
                     Add a new record to your Supabase table
                 </p>
@@ -169,7 +169,7 @@ export default function App() {
 
             {/* READ Section */}
             <div className="section">
-                <h2 className="section-title">📖 Read Data</h2>
+                <h2 className="section-title">Read Data</h2>
                 <p style={{ color: '#666', marginBottom: '20px', fontSize: '14px' }}>
                     Fetch all records from your Supabase table
                 </p>
@@ -223,14 +223,14 @@ export default function App() {
                     </table>
                 ) : (
                     <div className="empty-state">
-                        📭 No data yet. Click "Read All Data" to fetch records.
+                        No data yet. Click "Read All Data" to fetch records.
                     </div>
                 )}
             </div>
 
             {/* DELETE Section */}
             <div className="section">
-                <h2 className="section-title">🗑️ Delete Data</h2>
+                <h2 className="section-title">Delete Data</h2>
                 <p style={{ color: '#666', marginBottom: '20px', fontSize: '14px' }}>
                     Click the delete button in the table above to remove records
                 </p>
