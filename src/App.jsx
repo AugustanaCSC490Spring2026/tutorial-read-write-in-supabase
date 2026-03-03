@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { useState } from 'react'
 
-// TODO: Initialize Supabase client
+// Initialize Supabase client
 const supabase = createClient(
     import.meta.env.VITE_SUPABASE_URL,
     import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -13,10 +13,9 @@ export default function App() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [status, setStatus] = useState('')
-    const [formData, setFormData] = useState({
+    const [profileData, setProfileData] = useState({
         name: '',
         email: '',
-        message: ''
     })
 
     // TODO: Implement READ function
@@ -24,15 +23,13 @@ export default function App() {
         setLoading(true)
         setStatus('loading')
         try {
-            // Your read code goes here
-            // Example placeholder:
-            // const { data, error } = await supabase
-            //   .from('your_table_name')
-            //   .select('*')
-            // 
-            // if (error) throw error
-            // setData(data || [])
-            // setStatus('success: Read ' + (data?.length || 0) + ' records')
+            const { data, error } = await supabase
+                .from('users')
+                .select('*')
+
+            if (error) throw error
+            setData(data || [])
+            setStatus('success: Read ' + (data?.length || 0) + ' records')
 
             setStatus('Read function not yet implemented - add your code above!')
         } catch (error) {
@@ -44,7 +41,7 @@ export default function App() {
 
     // TODO: Implement WRITE function
     const handleWrite = async () => {
-        if (!formData.name || !formData.email) {
+        if (!profileData.name || !profileData.email) {
             setStatus('error: Please fill in all fields')
             return
         }
@@ -52,24 +49,21 @@ export default function App() {
         setLoading(true)
         setStatus('loading')
         try {
-            // Your write code goes here
-            // Example placeholder:
-            // const { data, error } = await supabase
-            //   .from('your_table_name')
-            //   .insert([
-            //     {
-            //       name: formData.name,
-            //       email: formData.email,
-            //       message: formData.message
-            //     }
-            //   ])
-            //   .select()
-            // 
-            // if (error) throw error
-            // setData([...data, ...data])
-            // setFormData({ name: '', email: '', message: '' })
-            // setStatus('success: Data written successfully')
-            // handleRead() // Refresh the table
+            const { data, error } = await supabase
+                .from('your_table_name')
+                .insert([
+                    {
+                        name: profileData.name,
+                        email: profileData.email,
+                    }
+                ])
+                .select()
+
+            if (error) throw error
+            setData([...data, ...data])
+            setProfileData({ name: '', email: '' })
+            setStatus('success: Data written successfully')
+            handleRead() // Refresh the table
 
             setStatus('Write function not yet implemented - add your code above!')
         } catch (error) {
@@ -84,17 +78,14 @@ export default function App() {
         setLoading(true)
         setStatus('loading')
         try {
-            // Your delete code goes here
-            // Example placeholder:
-            // const { error } = await supabase
-            //   .from('your_table_name')
-            //   .delete()
-            //   .eq('id', id)
-            // 
-            // if (error) throw error
-            // setStatus('success: Record deleted')
-            // handleRead() // Refresh the table
+            const { error } = await supabase
+                .from('your_table_name')
+                .delete()
+                .eq('id', id)
 
+            if (error) throw error
+            setStatus('success: Record deleted')
+            handleRead() // Refresh the table
             setStatus('Delete function not yet implemented - add your code above!')
         } catch (error) {
             setStatus('error: ' + error.message)
@@ -127,8 +118,8 @@ export default function App() {
                     <input
                         type="text"
                         placeholder="Enter your name"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        value={profileData.name}
+                        onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
                     />
                 </div>
 
@@ -137,8 +128,8 @@ export default function App() {
                     <input
                         type="email"
                         placeholder="Enter your email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        value={profileData.email}
+                        onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
                     />
                 </div>
 
@@ -147,8 +138,8 @@ export default function App() {
                     <input
                         type="text"
                         placeholder="Enter a message (optional)"
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        value={profileData.message}
+                        onChange={(e) => setProfileData({ ...profileData, message: e.target.value })}
                     />
                 </div>
 
