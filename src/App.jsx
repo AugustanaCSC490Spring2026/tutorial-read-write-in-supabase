@@ -7,8 +7,6 @@ const supabase = createClient(
     import.meta.env.VITE_SUPABASE_ANON_KEY
 )
 
-console.log('Supabase client initialized:', supabase)
-
 export default function App() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
@@ -18,7 +16,6 @@ export default function App() {
         email: '',
     })
 
-    // TODO: Implement READ function
     const handleRead = async () => {
         setLoading(true)
         setStatus('loading')
@@ -30,8 +27,6 @@ export default function App() {
             if (error) throw error
             setData(data || [])
             setStatus('success: Read ' + (data?.length || 0) + ' records')
-
-            setStatus('Read function not yet implemented - add your code above!')
         } catch (error) {
             setStatus('error: ' + error.message)
         } finally {
@@ -39,7 +34,6 @@ export default function App() {
         }
     }
 
-    // TODO: Implement WRITE function
     const handleWrite = async () => {
         if (!profileData.name || !profileData.email) {
             setStatus('error: Please fill in all fields')
@@ -50,22 +44,20 @@ export default function App() {
         setStatus('loading')
         try {
             const { data, error } = await supabase
-                .from('your_table_name')
+                .from('users')
                 .insert([
                     {
-                        name: profileData.name,
+                        display_name: profileData.name,
                         email: profileData.email,
                     }
                 ])
                 .select()
 
-            if (error) throw error
+            if (error) console.log('Supabase error:', error)
             setData([...data, ...data])
             setProfileData({ name: '', email: '' })
             setStatus('success: Data written successfully')
             handleRead() // Refresh the table
-
-            setStatus('Write function not yet implemented - add your code above!')
         } catch (error) {
             setStatus('error: ' + error.message)
         } finally {
@@ -73,20 +65,18 @@ export default function App() {
         }
     }
 
-    // TODO: Implement DELETE function
     const handleDelete = async (id) => {
         setLoading(true)
         setStatus('loading')
         try {
             const { error } = await supabase
-                .from('your_table_name')
+                .from('users')
                 .delete()
                 .eq('id', id)
 
             if (error) throw error
             setStatus('success: Record deleted')
             handleRead() // Refresh the table
-            setStatus('Delete function not yet implemented - add your code above!')
         } catch (error) {
             setStatus('error: ' + error.message)
         } finally {
@@ -151,11 +141,7 @@ export default function App() {
                     {loading ? 'Writing...' : 'Write Data'}
                 </button>
 
-                <div className="code-block">
-                    <pre>{`// Step 1: Make sure your Supabase client is initialized
-// Step 2: Replace 'your_table_name' with your actual table
-// Step 3: Write code here to INSERT data into Supabase`}</pre>
-                </div>
+
             </div>
 
             {/* READ Section */}
@@ -173,31 +159,25 @@ export default function App() {
                     {loading ? 'Reading...' : 'Read All Data'}
                 </button>
 
-                <div className="code-block">
-                    <pre>{`// Step 1: Make sure your Supabase client is initialized
-// Step 2: Replace 'your_table_name' with your actual table
-// Step 3: Write code here to SELECT data from Supabase`}</pre>
-                </div>
+
 
                 {/* Data Table */}
                 {data.length > 0 ? (
                     <table>
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
+                                {/* <th>ID</th> */}
+                                <th>Display Name</th>
                                 <th>Email</th>
-                                <th>Message</th>
-                                <th>Action</th>
+                                {/* <th>Message</th> */}
+                                {/* <th>Action</th> */}
                             </tr>
                         </thead>
                         <tbody>
                             {data.map((row) => (
                                 <tr key={row.id}>
-                                    <td>{row.id}</td>
-                                    <td>{row.name}</td>
+                                    <td>{row.display_name}</td>
                                     <td>{row.email}</td>
-                                    <td>{row.message}</td>
                                     <td>
                                         <button
                                             className="btn-delete"
@@ -226,11 +206,6 @@ export default function App() {
                     Click the delete button in the table above to remove records
                 </p>
 
-                <div className="code-block">
-                    <pre>{`// Step 1: Make sure your Supabase client is initialized
-// Step 2: Replace 'your_table_name' with your actual table
-// Step 3: Write code here to DELETE data from Supabase`}</pre>
-                </div>
             </div>
         </div>
     )
